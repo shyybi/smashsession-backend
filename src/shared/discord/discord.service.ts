@@ -16,12 +16,14 @@ export class DiscordService {
     private readonly usersService: UsersService,
   ) {}
 
-  getDiscordAuthorizationUrl() {
-    return `${this.discordBaseAuthorizationUrl}?client_id=${this.clientId}&response_type=code&redirect_uri=${encodeURIComponent(
+  getDiscordAuthorizationUrl(state: string) {
+    return `${this.discordBaseAuthorizationUrl}?response_type=token&client_id=${this.clientId}&redirect_uri=${encodeURIComponent(
       this.redirectUri,
-    )}&scope=identify+connections`;
+    )}&scope=identify&state=${encodeURIComponent(state)}`;
   }
 
+  //https://discord.com/oauth2/authorize?response_type=token&client_id=1267839474046603265&state=tAfrDTtDiF5je0ZhvwyqwecETcZCPV7G&scope=identify
+  //https://discord.com/oauth2/authorize?client_id=1267839474046603265&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F%2Fcallback&scope=identify&state=tAfrDTtDiF5je0ZhvwyqwecETcZCPV7G
   async verifyCode(code: string) {
     try {
       const tokenResponse = await this.httpService.axiosRef.post(

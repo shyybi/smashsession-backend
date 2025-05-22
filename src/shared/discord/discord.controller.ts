@@ -12,7 +12,7 @@ export class DiscordController {
   @Public()
   @Get()
   getDiscordAuthorizationUrl() {
-    return this.discordService.getDiscordAuthorizationUrl();
+    return this.discordService.getDiscordAuthorizationUrl(process.env.DISCORD_CLIENT_SECRET);
   }
 
   @Public()
